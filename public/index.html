@@ -5,23 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#15110f">
   <meta name="description" content="24 winterliche Überraschungen vom Unihockey-Rudel am Greifensee.">
+  <meta property="og:title" content="Grizzlys Adventskalender 2026">
+  <meta property="og:description" content="24 Türchen voller Unihockey, Rätsel und Winterspiele vom Rudel am Greifensee.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%BE%3C/text%3E%3C/svg%3E">
   <title>Grizzlys Adventskalender 2026</title>
-  <link rel="stylesheet" href="/style.css">
-  <script type="module" src="/app.js"></script>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
 </head>
 <body>
-  <header class="mast"><div class="wrap brand"><span aria-hidden="true">🐾</span><strong>GRIZZLYS</strong><span class="brand-note">UNIHOCKEY AM GREIFENSEE</span></div></header>
-  <main class="wrap">
-    <section class="hero" aria-labelledby="title">
+  <div class="sky" aria-hidden="true">
+    <div class="aurora a1"></div><div class="aurora a2"></div><div class="aurora a3"></div>
+    <div class="curtain"></div>
+  </div>
+  <canvas id="snow" aria-hidden="true"></canvas>
+  <canvas id="fx" popover="manual" aria-hidden="true"></canvas>
+
+  <header class="mast">
+    <div class="wrap brand"><span class="paw" id="paw" aria-hidden="true">🐾</span><strong>GRIZZLYS</strong><span class="brand-note">UNIHOCKEY AM GREIFENSEE</span></div>
+  </header>
+
+  <main>
+    <section class="hero wrap" id="hero" aria-labelledby="title">
       <div class="hero-copy">
-        <p class="eyebrow">1.–24. Dezember 2026</p>
-        <h1 id="title">Advent beim <em>Rudel.</em></h1>
-        <p>24 Türchen voller Unihockey, Rätsel und Winterspiele. Ab Mitternacht Schweizer Zeit wartet jeden Tag eine neue Überraschung.</p>
+        <p class="eyebrow live">1.–24. Dezember 2026</p>
+        <h1 id="title"><span class="line">Advent beim</span><em class="line">Rudel.</em></h1>
+        <p class="lead">24 Türchen voller Unihockey, Rätsel und Winterspiele. Ab Mitternacht Schweizer Zeit wartet jeden Tag eine neue Überraschung.</p>
+        <div class="countdown" id="cd">
+          <p class="cd-label" id="cd-label">Bis zum ersten Türchen</p>
+          <div class="cd-tiles" id="cd-tiles" aria-hidden="true">
+            <div class="tile"><b id="cd-d">--</b><span>Tage</span></div>
+            <div class="tile"><b id="cd-h">--</b><span>Std</span></div>
+            <div class="tile"><b id="cd-m">--</b><span>Min</span></div>
+            <div class="tile"><b id="cd-s">--</b><span>Sek</span></div>
+          </div>
+        </div>
         <a class="button primary" href="#kalender">Zum Kalender <span aria-hidden="true">↓</span></a>
       </div>
-      <img src="/winter.svg" alt="Illustrierter Grizzly vor einem beleuchteten Clubhaus im Schnee" width="720" height="480">
+      <div class="hero-art" id="hero-art">
+        <div class="glow" aria-hidden="true"></div>
+        <img src="./winter.svg" alt="Illustrierter Grizzly vor einem beleuchteten Clubhaus im Schnee" width="720" height="480">
+      </div>
     </section>
-    <section id="kalender" class="calendar" aria-labelledby="calendar-heading">
+
+    <div class="pitch wrap" aria-hidden="true"><span class="ball"></span></div>
+
+    <div class="ticker-wrap" aria-hidden="true">
+      <div class="ticker">
+        <div class="ticker-track">
+          <span>GRIZZLYS ✦ UNIHOCKEY AM GREIFENSEE ✦ ADVENT 2026 ✦ 24 TÜRCHEN ✦ GRIZZLYS ✦ UNIHOCKEY AM GREIFENSEE ✦ ADVENT 2026 ✦ 24 TÜRCHEN ✦ GRIZZLYS ✦ UNIHOCKEY AM GREIFENSEE ✦ ADVENT 2026 ✦ 24 TÜRCHEN ✦ GRIZZLYS ✦ UNIHOCKEY AM GREIFENSEE ✦ ADVENT 2026 ✦ 24 TÜRCHEN ✦&nbsp;</span>
+          <span>GRIZZLYS ✦ UNIHOCKEY AM GREIFENSEE ✦ ADVENT 2026 ✦ 24 TÜRCHEN ✦ GRIZZLYS ✦ UNIHOCKEY AM GREIFENSEE ✦ ADVENT 2026 ✦ 24 TÜRCHEN ✦ GRIZZLYS ✦ UNIHOCKEY AM GREIFENSEE ✦ ADVENT 2026 ✦ 24 TÜRCHEN ✦ GRIZZLYS ✦ UNIHOCKEY AM GREIFENSEE ✦ ADVENT 2026 ✦ 24 TÜRCHEN ✦&nbsp;</span>
+        </div>
+      </div>
+    </div>
+
+    <section id="kalender" class="calendar wrap" aria-labelledby="calendar-heading">
       <div class="calendar-head">
         <div><p class="eyebrow">Der Grizzlys-Advent</p><h2 id="calendar-heading">Die 24 Türchen</h2></div>
         <div class="status"><strong id="count">– / 24 offen</strong><span id="countdown" role="status">Kalender wird geladen …</span></div>
@@ -30,7 +68,9 @@
       <noscript>Bitte aktiviere JavaScript, um die Türchen zu spielen.</noscript>
     </section>
   </main>
+
   <footer class="wrap footer"><span>Grizzlys · Advent 2026</span><a href="https://www.grizzlys.club/">Zum Verein ↗</a></footer>
+
   <dialog id="door-dialog" aria-labelledby="door-title">
     <div class="dialog-head"><p class="eyebrow" id="door-tag"></p><form method="dialog"><button aria-label="Türchen schliessen" class="close">✕</button></form></div>
     <h2 id="door-title"></h2><p id="door-intro"></p>

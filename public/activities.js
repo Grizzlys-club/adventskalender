@@ -1,4 +1,5 @@
-const art = '/winter.svg';
+import { apiFetch } from './api.js';
+const art = './winter.svg';
 const normal = value => value.trim().toLocaleLowerCase('de-CH');
 const random = n => Math.floor(Math.random() * n);
 
@@ -781,7 +782,7 @@ async function vote(root, { candidates }, signal) {
     pending = true;
     controls.forEach(node => { node.disabled = true; });
     try {
-      const response = await fetch('/api/votes', goal ? {
+      const response = await apiFetch('api/votes', goal ? {
         method: 'POST', body: JSON.stringify({ goal }), headers: { 'Content-Type': 'application/json' }, signal,
       } : { signal });
       const data = await response.json();

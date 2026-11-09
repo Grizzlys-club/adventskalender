@@ -17,6 +17,8 @@ const assets = new Map([
   ['/', ['index.html', 'text/html']],
   ['/style.css', ['style.css', 'text/css']],
   ['/app.js', ['app.js', 'text/javascript']],
+  ['/api.js', ['api.js', 'text/javascript']],
+  ['/effects.js', ['effects.js', 'text/javascript']],
   ['/activities.js', ['activities.js', 'text/javascript']],
   ['/winter.svg', ['winter.svg', 'image/svg+xml']],
 ]);
