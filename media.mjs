@@ -8,7 +8,7 @@ export const recap = [];
 export const filmEpisodes = {
   1: {
     title: 'Kodi erwacht',
-    label: '12 Sek. · Filmausschnitt · KI-generiert',
+    label: '17 Sek. · Filmausschnitt · KI-generiert',
     description: 'Ein junger Braunbär mit orangefarbenem Schal erwacht im Winterwald und entdeckt ein Licht auf der anderen Seite des Sees.',
   },
 };
