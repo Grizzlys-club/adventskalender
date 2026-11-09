@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: grizzlys-adventskalender
+    runtime: docker
+    plan: starter
+    healthCheckPath: /api/calendar
+    disk:
+      name: votes
+      mountPath: /data
+      sizeGB: 1

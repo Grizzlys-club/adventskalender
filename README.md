@@ -27,3 +27,11 @@ node --input-type=module -e 'import {calendarServer} from "./server.mjs"; calend
 ## Betrieb
 
 Für die gemeinsame Abstimmung eine laufende Node-Instanz mit dauerhaftem Speicher verwenden. `VOTES_DB` kann auf einen beschreibbaren Pfad im persistenten Speicher zeigen. Standard ist `votes.sqlite`. Die App braucht einen Node-Server, damit gesperrte Inhalte und Abstimmung serverseitig geschützt bleiben.
+
+## Öffentlich veröffentlichen (Render)
+
+1. Auf render.com mit GitHub anmelden und **New → Blueprint** wählen.
+2. Das Repository `Grizzlys-club/adventskalender` auswählen. Render liest `render.yaml` und baut das `Dockerfile`.
+3. Nach dem Deploy ist die Seite unter einer `onrender.com`-Adresse öffentlich erreichbar. Die Abstimmung wird auf der Disk unter `/data` gespeichert.
+
+Hinweis: Der Plan `starter` ist kostenpflichtig, weil die Disk dauerhaften Speicher braucht. Ohne Disk gehen die Stimmen bei jedem Neustart verloren.
