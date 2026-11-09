@@ -29,12 +29,27 @@ test('HTTP gates content and persists one vote per anonymous cookie', async t =>
   assert.match(await (await fetchPath('/')).text(), /Grizzlys Adventskalender 2026/);
   assert.equal((await (await fetchPath('/api/calendar')).json()).unlocked, 0);
   assert.equal((await fetchPath('/api/doors/1')).status, 423);
+  assert.equal((await fetchPath('/film/01.mp4')).status, 423);
   assert.equal((await fetchPath('/api/doors/0')).status, 404);
   assert.equal((await fetchPath('/api/votes')).status, 423);
   now++;
   assert.equal((await fetchPath('/api/doors/1')).status, 200);
   assert.equal((await fetchPath('/api/doors/2')).status, 423);
+  const meta = await (await fetchPath('/api/doors/1')).json();
+  assert.equal(meta.episode.title, 'Kodi erwacht');
+  const file = await fetchPath('/film/01.mp4', { method: 'HEAD' });
+  assert.equal(file.status, 200);
+  assert.equal(file.headers.get('content-type'), 'video/mp4');
+  const sample = await fetchPath('/film/01.mp4', { headers: { Range: 'bytes=0-31' } });
+  assert.equal(sample.status, 206);
+  assert.match(sample.headers.get('content-range'), /^bytes 0-31\/\d+$/);
+  const bytes = Buffer.from(await sample.arrayBuffer());
+  assert.equal(bytes.length, 32);
+  assert.equal(bytes.toString('ascii', 4, 8), 'ftyp');
+  assert.equal((await fetchPath('/film/01.mp4', { headers: { Range: 'bytes=42-12' } })).status, 416);
+
   now = Date.parse('2026-12-24T00:00:00+01:00');
+  assert.equal((await fetchPath('/film/02.mp4')).status, 404);
   for (let day = 1; day <= 24; day++) {
     const response = await fetchPath(`/api/doors/${day}`);
     assert.equal(response.status, 200);

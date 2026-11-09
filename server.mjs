@@ -1,5 +1,7 @@
 import { createServer } from 'node:http';
-import { readFile } from 'node:fs/promises';
+import { createReadStream } from 'node:fs';
+import { readFile, stat } from 'node:fs/promises';
+import { pipeline } from 'node:stream/promises';
 import { randomUUID } from 'node:crypto';
 import { DatabaseSync } from 'node:sqlite';
 import { pathToFileURL } from 'node:url';
@@ -25,6 +27,41 @@ const assets = new Map([
 const cookieName = 'grizzlys_vote';
 const ballotId = request => (request.headers.cookie ?? '')
   .match(/(?:^|;\s*)grizzlys_vote=([a-f0-9-]{36})(?:;|$)/)?.[1];
+
+async function sendFilm(request, response, file) {
+  const { size } = await stat(file);
+  const headers = {
+    'Content-Type': 'video/mp4',
+    'Accept-Ranges': 'bytes',
+    'Cache-Control': 'private, no-cache',
+    'X-Content-Type-Options': 'nosniff',
+  };
+  let start = 0;
+  let end = size - 1;
+  const range = request.headers.range;
+  if (range) {
+    const match = range.match(/^bytes=(\d*)-(\d*)$/);
+    if (match) {
+      start = match[1] ? Number(match[1]) : Math.max(0, size - Number(match[2]));
+      if (match[1] && match[2]) end = Math.min(end, Number(match[2]));
+    }
+    if (!match || start >= size || start > end) {
+      response.writeHead(416, { 'Content-Range': `bytes */${size}` }).end();
+      return;
+    }
+    headers['Content-Range'] = `bytes ${start}-${end}/${size}`;
+  }
+  headers['Content-Length'] = end - start + 1;
+  response.writeHead(range ? 206 : 200, headers);
+  if (request.method === 'HEAD') response.end();
+  else {
+    try {
+      await pipeline(createReadStream(file, { start, end }), response);
+    } catch (error) {
+      if (error.code !== 'ERR_STREAM_PREMATURE_CLOSE') throw error;
+    }
+  }
+}
 
 export function calendarServer({ clock = Date.now, database = 'votes.sqlite', candidates = goals } = {}) {
   let db;
@@ -55,6 +92,13 @@ export function calendarServer({ clock = Date.now, database = 'votes.sqlite', ca
         if (day > unlocked) return json(423, { error: 'Dieses Türchen ist noch geschlossen.' });
         if (day === 18) return json(200, { ...doors[17], candidates });
         return json(200, doors[day - 1]);
+      }
+      const film = path.match(/^\/film\/(0[1-9]|1[0-9]|2[0-4])\.mp4$/);
+      if (film && ['GET', 'HEAD'].includes(request.method)) {
+        const day = Number(film[1]);
+        if (day > unlocked) return json(423, { error: 'Dieses Türchen ist noch geschlossen.' });
+        if (!doors[day - 1].episode) return json(404, { error: 'Film nicht gefunden.' });
+        return await sendFilm(request, response, new URL(`./public/film/${film[1]}.mp4`, import.meta.url));
       }
       if (path === '/api/votes' && ['GET', 'POST'].includes(request.method)) {
         if (unlocked < 18) return json(423, { error: 'Die Abstimmung beginnt am 18. Dezember.' });

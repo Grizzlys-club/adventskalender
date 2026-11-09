@@ -204,3 +204,8 @@ select { max-width: 100%; color: var(--fg); background: #30231d; border: 1px sol
   .curtain, .aurora { animation: none; }
   .ticker-track { animation: none; }
 }
+
+.film-player { display: grid; gap: .45rem; padding: .8rem; border: 1px solid var(--line); border-radius: .8rem; background: #1b1412; }
+.film-player h3 { margin: 0; }
+.film-player video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #0c0908; }
+.film-player p:last-child { color: var(--muted); font-size: .9rem; }

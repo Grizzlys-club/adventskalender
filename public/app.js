@@ -177,7 +177,9 @@ async function openDoor(day, trigger) {
     remember(day);
     if (calendar) paintDoor(day - 1);
     confetti(innerWidth / 2, innerHeight * 0.3, { count: 110, power: 1 });
-    mountActivity(content, door, signal, next => {
+    const activity = door.episode ? document.createElement('div') : content;
+    if (door.episode) content.append(filmPlayer(day, door.episode, signal), activity);
+    mountActivity(activity, door, signal, next => {
       dialog.close();
       // Wait for the previous activity's close event before opening another door.
       dialog.addEventListener('close', () => openDoor(next, doors[next - 1].button), { once: true });
@@ -186,6 +188,34 @@ async function openDoor(day, trigger) {
     if (!signal.aborted) content.textContent = error.message || 'Das Türchen konnte nicht geladen werden.';
   }
 }
+function filmPlayer(day, episode, signal) {
+  const section = document.createElement('section');
+  section.className = 'film-player';
+  const title = document.createElement('h3');
+  title.textContent = episode.title;
+  const label = document.createElement('p');
+  label.className = 'eyebrow';
+  label.textContent = episode.label;
+  const video = document.createElement('video');
+  video.controls = true;
+  video.playsInline = true;
+  video.preload = 'metadata';
+  video.setAttribute('aria-label', episode.title);
+  video.src = new URL(`film/${String(day).padStart(2, '0')}.mp4`, import.meta.url).href;
+  const description = document.createElement('p');
+  description.textContent = episode.description;
+  video.addEventListener('error', () => {
+    description.textContent = 'Der Filmausschnitt konnte nicht geladen werden.';
+  }, { signal });
+  signal.addEventListener('abort', () => {
+    video.pause();
+    video.removeAttribute('src');
+    video.load();
+  }, { once: true });
+  section.append(label, title, video, description);
+  return section;
+}
+
 dialog.addEventListener('close', () => {
   active?.abort();
   content.replaceChildren();

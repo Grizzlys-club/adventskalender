@@ -1,4 +1,4 @@
-import { recap } from './media.mjs';
+import { recap, filmEpisodes } from './media.mjs';
 
 const clubQuiz = [
   ['Welche Sportart spielen die Grizzlys?', ['Eishockey', 'Unihockey', 'Handball'], 1],
@@ -35,7 +35,7 @@ const emoji = [
   ['🔁🏃', ['wechsel', 'spielerwechsel']], ['🎩3️⃣🥅', ['hattrick', 'hat-trick']],
 ];
 
-export const doors = [
+const activities = [
   { title: 'Das Rudel erwacht', type: 'Special', game: 'welcome', intro: 'Ein warmer Lichtschein fällt in den Schnee. Wer öffnet da die Tür zum Grizzlys-Advent?' },
   { title: 'Grizzlys Memory', type: 'Minigame', game: 'memory', intro: 'Decke alle acht Paare auf. Wie schnell schaffst du es?', pairs: [['🏑', 'Stock'], ['⚪', 'Ball'], ['👕', 'Trikot'], ['🐻', 'Grizzly'], ['🥅', 'Tor'], ['🧤', 'Goaliehandschuh'], ['❄️', 'Schnee'], ['🎄', 'Tanne']] },
   { title: 'Wer kennt die Grizzlys?', type: 'Quiz', game: 'quiz', intro: 'Zehn Fragen über unser Rudel am Greifensee.', questions: clubQuiz, source: 'https://www.grizzlys.club/faq/' },
@@ -61,3 +61,8 @@ export const doors = [
   { title: 'Grizzlys Jahresrückblick', type: 'Special', game: 'recap', intro: 'Drei Momente aus dem Grizzlys-Jahr 2026.', moments: [['🏅', 'U13-Masters', 'Die U13 wurde BESJ-Vize-Schweizermeister.'], ['🏑', 'Grossfeld', 'Die Herren wechselten vom Klein- aufs Grossfeld.'], ['🐾', 'Saison 2026/27', 'Das Rudel startete mit Kinder-, Jugend- und Erwachsenenteams in die neue Saison.']], gallery: recap, source: 'https://www.grizzlys.club/storyline/' },
   { title: 'Das grosse Weihnachtsfinale', type: 'Finale', game: 'series', intro: 'Sammle die letzten Funken fürs Weihnachtslicht im Grizzlys-Clubhaus.', stages: ['skill', 'reaction', 'finalRiddle'], rounds: 1, final: { prompt: 'Ich leuchte an der Spitze der Tanne und am klaren Winterhimmel. Was bin ich?', answers: ['stern', 'ein stern', 'weihnachtsstern'] } },
 ];
+
+export const doors = activities.map((door, index) => {
+  const episode = filmEpisodes[index + 1];
+  return episode ? { ...door, episode } : door;
+});

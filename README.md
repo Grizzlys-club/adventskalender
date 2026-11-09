@@ -58,3 +58,9 @@ Für die gemeinsame Abstimmung und geschützte Türchen eine laufende Node-Insta
 3. Nach dem Deploy ist die Seite unter einer `onrender.com`-Adresse öffentlich erreichbar. Die Abstimmung wird auf der Disk unter `/data` gespeichert.
 
 Hinweis: Der Plan `starter` ist kostenpflichtig, weil die Disk dauerhaften Speicher braucht. Ohne Disk gehen die Stimmen bei jedem Neustart verloren.
+
+## Adventsfilm · Kodi und der Weihnachtsstern
+
+Türchen 1 enthält einen fotorealistischen KI-Filmausschnitt. Das [Drehbuch](DREHBUCH.md) beschreibt 24 geplante Folgen. Weitere veröffentlichte Folgen bekommen eine MP4-Datei unter `public/film/01.mp4` bis `public/film/24.mp4` und einen Eintrag für denselben Tag in `filmEpisodes` in `media.mjs`. Bestehende Aktivitäten bleiben unter dem Player erreichbar.
+
+Der Node-Server prüft die Freigabe auch für direkte Videoabrufe. Auf GitHub Pages ist der Player im Kalender bis zum jeweiligen Termin gesperrt. Direkt verlinkte MP4-Dateien sind auf dem statischen Hosting öffentlich erreichbar.
