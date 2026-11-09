@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15110f">
+  <meta name="description" content="24 winterliche Überraschungen vom Unihockey-Rudel am Greifensee.">
+  <title>Grizzlys Adventskalender 2026</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="mast"><div class="wrap brand"><span aria-hidden="true">🐾</span><strong>GRIZZLYS</strong><span class="brand-note">UNIHOCKEY AM GREIFENSEE</span></div></header>
+  <main class="wrap">
+    <section class="hero" aria-labelledby="title">
+      <div class="hero-copy">
+        <p class="eyebrow">1.–24. Dezember 2026</p>
+        <h1 id="title">Advent beim <em>Rudel.</em></h1>
+        <p>24 Türchen voller Unihockey, Rätsel und Winterspiele. Ab Mitternacht Schweizer Zeit wartet jeden Tag eine neue Überraschung.</p>
+        <a class="button primary" href="#kalender">Zum Kalender <span aria-hidden="true">↓</span></a>
+      </div>
+      <img src="/winter.svg" alt="Illustrierter Grizzly vor einem beleuchteten Clubhaus im Schnee" width="720" height="480">
+    </section>
+    <section id="kalender" class="calendar" aria-labelledby="calendar-heading">
+      <div class="calendar-head">
+        <div><p class="eyebrow">Der Grizzlys-Advent</p><h2 id="calendar-heading">Die 24 Türchen</h2></div>
+        <div class="status"><strong id="count">– / 24 offen</strong><span id="countdown" role="status">Kalender wird geladen …</span></div>
+      </div>
+      <div id="doors" class="doors"></div>
+      <noscript>Bitte aktiviere JavaScript, um die Türchen zu spielen.</noscript>
+    </section>
+  </main>
+  <footer class="wrap footer"><span>Grizzlys · Advent 2026</span><a href="https://www.grizzlys.club/">Zum Verein ↗</a></footer>
+  <dialog id="door-dialog" aria-labelledby="door-title">
+    <div class="dialog-head"><p class="eyebrow" id="door-tag"></p><form method="dialog"><button aria-label="Türchen schliessen" class="close">✕</button></form></div>
+    <h2 id="door-title"></h2><p id="door-intro"></p>
+    <div id="activity" class="activity"></div>
+  </dialog>
+</body>
+</html>
